@@ -1,3 +1,6 @@
 export const environment = {
-  production: true
+  production: true,
+  authenticateUrl: 'api/users/authenticate',
+  loginRedirectUrl: 'welcome',
+  productsUrl: 'api/products'
 };
