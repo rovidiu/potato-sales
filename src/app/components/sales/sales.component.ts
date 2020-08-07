@@ -10,7 +10,6 @@ import { Router } from '@angular/router';
   templateUrl: './sales.component.html',
   styleUrls: ['./sales.component.css']
 })
-
 export class SalesComponent implements OnInit {
   sales = [];
   columns = [];

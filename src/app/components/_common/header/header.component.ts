@@ -8,7 +8,6 @@ import { User } from '../../../models';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-
 export class HeaderComponent implements OnInit {
   user: User;
 

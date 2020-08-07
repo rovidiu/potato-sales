@@ -10,7 +10,6 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './new.component.html',
   styleUrls: ['./new.component.css']
 })
-
 export class NewComponent implements OnInit {
   newProductForm: FormGroup;
   loading = false;

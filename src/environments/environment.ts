@@ -6,7 +6,8 @@ export const environment = {
   production: false,
   authenticateUrl: 'api/users/authenticate',
   loginRedirectUrl: 'welcome',
-  productsUrl: 'api/products'
+  productsUrl: 'api/products',
+  timeoutMessage: 3000
 };
 
 /*

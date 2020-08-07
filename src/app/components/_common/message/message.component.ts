@@ -5,12 +5,13 @@ import { Subscription } from 'rxjs';
 import { Message, MessageType } from '../../../models';
 import { MessageService } from '../../../services';
 
+import { environment } from "../../../../environments/environment";
+
 @Component({
   selector: 'app-message',
   templateUrl: './message.component.html',
   styleUrls: ['./message.component.css']
 })
-
 export class MessageComponent implements OnInit, OnDestroy {
   @Input() id = 'default-message';
 
@@ -32,6 +33,8 @@ export class MessageComponent implements OnInit, OnDestroy {
 
         // add alert to array
         this.messages.push(message);
+  
+        setTimeout(() => this.removeMessage(message), environment.timeoutMessage);
       });
 
     // clear alerts on location change
