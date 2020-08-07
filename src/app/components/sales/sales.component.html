@@ -1,0 +1,124 @@
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h2>Total found records: {{ sales.length }}</h2>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-4">
+            <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="searchValue"/>
+        </div>
+        <div class="col-2">
+            <button
+                class="btn btn-primary"
+                (click)="onSalesSearch()"
+            >Search</button>
+
+            <button
+                class="btn btn-light"
+                (click)="resetSalesSearchForm()"
+            >
+                Reset
+            </button>
+        </div>
+    </div>
+</div>
+<br />
+<div class="container">
+    <div class="row">
+        <div class="col-2">
+            <button
+                    class="btn btn-primary"
+                    (click)="onAddNewProduct()"
+            >Add new product</button>
+        </div>
+    </div>
+</div>
+<br />
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <table
+                class="table table-striped table-bordered"
+                *ngIf="!loading"
+            >
+                <thead>
+                    <tr>
+                        <th
+                            *ngFor="let col of columns"
+                            class="text-center"
+                            [attr.colspan]="col.subHeaders ? col.subHeaders.length : 1"
+                            (click)="col.field || col.header.toLowerCase().indexOf('total') > -1 ? sortTable(col.field) : ''"
+                            align="middle"
+                        >
+                            {{ col.header }}
+                            <p *ngIf="col.field || col.header.toLowerCase().indexOf('total') > -1">
+                                <i [ngClass]="'p-sortable-column-icon pi pi-fw ' + col.sortClass"></i>
+                            </p>
+
+                            <table
+                                *ngIf="col.subHeaders && col.subHeaders.length"
+                                class="subheader"
+                            >
+                                <tr>
+                                    <th
+                                        *ngFor="let colSubheader of col.subHeaders"
+                                        class="text-center"
+                                        (click)="sortTable(colSubheader.field)"
+                                        [style]="'width: ' + (100 / colSubheader.length) + '%'"
+                                    >
+                                        {{ colSubheader.header }}
+                                        <p>
+                                            <i [ngClass]="'p-sortable-column-icon pi pi-fw ' + colSubheader.sortClass"></i>
+                                        </p>
+                                    </th>
+                                </tr>
+                            </table>
+                        </th>
+
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let saleVal of sales">
+                        <td
+                            *ngFor="let colName of saleVal | keyvalue; let i=index; trackBy: trackByFn;"
+                            class="text-center"
+                        >
+                            <div *ngIf="!editSale || editSale.productID !== saleVal.productID">
+                                <span *ngIf="isInt(saleVal[colName.key]) && colName.key !== 'productID'">{{ saleVal[colName.key] | currency: 'EUR' }}</span>
+                                <span *ngIf="!isInt(saleVal[colName.key]) || colName.key === 'productID'">{{ saleVal[colName.key] }}</span>
+                            </div>
+
+                            <div *ngIf="editSale && editSale.productID === saleVal.productID">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    [(ngModel)]="editSale[colName.key]"
+                                />
+                            </div>
+                        </td>
+
+                        <td
+                            class="text-center">
+                            {{ getTotalSales(saleVal) | currency: 'EUR' }}
+                        </td>
+
+                        <td class="text-center">
+                            <span (click)="editSaleRow(saleVal)" *ngIf="!editSale || editSale.productID !== saleVal.productID">Edit</span>
+                            <span (click)="updateSaleRow(saleVal)" *ngIf="editSale && editSale.productID === saleVal.productID">Update</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

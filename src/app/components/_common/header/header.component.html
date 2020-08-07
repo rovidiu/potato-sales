@@ -1,0 +1,47 @@
+<nav class="navbar navbar-expand navbar-dark bg-dark">
+    <div class="navbar-nav">
+        <a
+            class="nav-item nav-link"
+            routerLink="/"
+            routerLinkActive=""
+            routerLinkActiveOptions="{exact: true}"
+        >
+            Home
+        </a>
+
+        <a
+            class="nav-item nav-link"
+            routerLink="/product/new"
+            routerLinkActive="active"
+            routerLinkActiveOptions="{exact: true}"
+            *ngIf="user"
+        >
+            New product
+        </a>
+        <a
+            class="nav-item nav-link"
+            routerLink="/sales"
+            routerLinkActive="active"
+            routerLinkActiveOptions="{exact: true}"
+            *ngIf="user"
+        >
+            Sales
+        </a>
+
+        <a
+            class="nav-item nav-link"
+            routerLink="/login"
+            routerLinkActive="active"
+            *ngIf="!user"
+        >
+            Login
+        </a>
+        <a
+            class="nav-item nav-link"
+            (click)="logout()"
+            *ngIf="user"
+        >
+            Logout
+        </a>
+    </div>
+</nav>

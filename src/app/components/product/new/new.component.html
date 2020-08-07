@@ -1,0 +1,93 @@
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+            <form [formGroup]="newProductForm" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <label for="id" class="p-col-fixed">Id</label>
+                    <input
+                            type="text"
+                            id="id"
+                            pInputText
+                            formControlName="id"
+                            class="form-control"
+                    />
+                    <div
+                            *ngIf="!newProductForm.get('id').valid && newProductForm.get('id').touched"
+                            class="help-block alert alert-danger">
+                        <span *ngIf="newProductForm.get('id').errors['required']">This field is required!</span>
+                        <span *ngIf="newProductForm.get('id').errors['pattern']">This field should be numerical!</span>
+                        <span *ngIf="newProductForm.get('id').errors['maxlength']">This field is too long!</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="name" class="p-col-fixed">Name</label>
+                    <input
+                        type="text"
+                        id="name"
+                        pInputText
+                        formControlName="name"
+                        class="form-control"
+                    />
+                    <div
+                            *ngIf="!newProductForm.get('name').valid && newProductForm.get('name').touched"
+                            class="help-block alert alert-danger">
+                        <span *ngIf="newProductForm.get('name').errors['required']">This field is required!</span>
+                        <span *ngIf="newProductForm.get('name').errors['pattern']">This field should be alphanumerical!</span>
+                        <span *ngIf="newProductForm.get('name').errors['maxlength']">This field is too long!</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="manager" class="p-col-fixed">Manager</label>
+                    <input
+                        type="text"
+                        id="manager"
+                        pInputText
+                        formControlName="manager"
+                        class="form-control"
+                    />
+                    <div
+                        *ngIf="!newProductForm.get('manager').valid && newProductForm.get('manager').touched"
+                        class="help-block alert alert-danger">
+                        <span *ngIf="newProductForm.get('manager').errors['pattern']">This field should be alphanumerical!</span>
+                        <span *ngIf="newProductForm.get('manager').errors['maxlength']">This field is too long!</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="sales_start_date" class="p-col-fixed">Sales start date</label>
+                    <p-calendar
+                        id="sales_start_date"
+                        formControlName="sales_start_date"
+                        dateFormat="dd.mm.yy"
+                    ></p-calendar>
+                    <div
+                        *ngIf="!newProductForm.get('sales_start_date').valid && newProductForm.get('sales_start_date').touched"
+                        class="help-block alert alert-danger">
+                        <span *ngIf="newProductForm.get('sales_start_date').errors['required']">This field is required!</span>
+                        <span *ngIf="newProductForm.get('sales_start_date').errors['pattern']">This field should be alphanumerical!</span>
+                        <span *ngIf="newProductForm.get('sales_start_date').errors['maxlength']">This field is too long!</span>
+                    </div>
+                </div>
+
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button
+                        class="btn btn-primary"
+                        type="submit"
+                        [disabled]="!newProductForm.valid"
+                    >
+                        Save
+                    </button>
+
+                    <button
+                        class="btn btn-light"
+                        (click)="resetForm()"
+                    >
+                        Reset
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

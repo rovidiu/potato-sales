@@ -1,0 +1,30 @@
+th p{
+    display: inline-flex;
+    margin: 0px;
+}
+
+th{
+    cursor: pointer;
+    vertical-align: middle!important;
+    display: table-cell;
+}
+
+th:last-child{
+    cursor: default;
+}
+
+.table .subheader,
+.table .subheader tr{
+    display: block!important;
+    width: 100%!important;
+}
+
+.table .subheader th{
+    display: inline-block;
+    width: 25%;
+    border: none;
+}
+
+.table td:last-child span{
+    cursor: pointer;
+}

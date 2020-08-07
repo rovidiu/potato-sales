@@ -1,0 +1,4 @@
+<div *ngFor="let message of messages" class="{{cssClass(message)}}">
+    <a class="close" (click)="removeMessage(message)">&times;</a>
+    <span [innerHTML]="message.message"></span>
+</div>
