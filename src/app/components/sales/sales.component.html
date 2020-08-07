@@ -88,7 +88,7 @@
                 </thead>
 
                 <tbody>
-                    <tr *ngFor="let saleVal of sales">
+                    <tr *ngFor="let saleVal of sales; let rowIndex=index;">
                         <td
                             *ngFor="let colName of saleVal | keyvalue; let i=index; trackBy: trackByFn;"
                             class="text-center"
@@ -115,6 +115,7 @@
                         <td class="text-center">
                             <span (click)="editSaleRow(saleVal)" *ngIf="!editSale || editSale.productID !== saleVal.productID">Edit</span>
                             <span (click)="updateSaleRow(saleVal)" *ngIf="editSale && editSale.productID === saleVal.productID">Update</span>
+                            <span (click)="cancelUpdateSaleRow(rowIndex)" *ngIf="editSale && editSale.productID === saleVal.productID">&nbsp;|&nbsp;Cancel</span>
                         </td>
                     </tr>
                 </tbody>

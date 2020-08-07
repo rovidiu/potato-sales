@@ -17,9 +17,16 @@ export class SalesComponent implements OnInit {
   searchValue = '';
   apiSales = [];
   /** this are original answer received from api, each time a search is done reset sales array to this one and start */
-  editSale = [];
-
-  addNewProduct: boolean = false;
+  editSale = []
+  editSaleBckp = {
+    productID: 0,
+    productName: '',
+    salesQ1: 0,
+    salesQ2: 0,
+    salesQ3: 0,
+    salesQ4: 0
+  };
+  editSaleProductID = 0;
 
   constructor(
     private productService: ProductService,
@@ -29,6 +36,10 @@ export class SalesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loadProducts();
+  }
+
+  loadProducts() {
     this.loading = true;
 
     /** get all products from the server */
@@ -202,30 +213,48 @@ export class SalesComponent implements OnInit {
    * @param sale
    */
   editSaleRow(sale) {
+    this.editSaleProductID = sale.productID;
     this.editSale = sale;
+    this.editSaleBckp = {
+      ...sale
+    };
   }
 
   /**
    * update sale
    */
   updateSaleRow() {
-    this.loading = true;
+    if (this.editSale) {
+      const validateProductID = this.validateProductId()
+      if (validateProductID.length) {
+        this.editSale.productID = this.apiSales.filter((sale) => sale.productID === this.editSale.productID)[0].productID;
+        this.messageService.error(validateProductID);
+        return;
+      }
 
-    this.productService.update(this.editSale)
-      .pipe(first())
-      .subscribe(
-        data => {
-          this.messageService.success('Update successful');
+      const validateProductName = this.validateProductName()
+      if (validateProductName.length) {
+        this.messageService.error(validateProductName);
+        return;
+      }
 
-          this.apiSales = data.data;
-          this.sales = data.data;
-        },
-        error => {
-          this.messageService.error(error);
-        });
+      this.loading = true;
+      this.productService.update(this.editSale)
+        .pipe(first())
+        .subscribe(
+          data => {
+            this.messageService.success('Update successful');
 
-    this.loading = false;
-    this.editSale = [];
+            this.apiSales = data.data;
+            this.sales = data.data;
+          },
+          error => {
+            this.messageService.error(error);
+          });
+
+      this.loading = false;
+      this.editSale = [];
+    }
   }
 
   /**
@@ -240,5 +269,55 @@ export class SalesComponent implements OnInit {
    */
   onAddNewProduct() {
     this.router.navigate(['/product/new']);
+  }
+
+  /**
+   * validate id field
+   */
+  validateProductId() {
+    const reg = new RegExp('^[0-9]+$');
+
+    if (!this.editSale.productID) {
+      return 'Product ID is required.';
+    }
+
+    if (this.editSale.productID.length > 13) {
+      return 'Product ID should have less that 13 numeric chars.';
+    }
+
+    if (!reg.test(this.editSale.productID)) {
+      return 'Product ID should contains only numeric chars.';
+    }
+
+    return '';
+  }
+
+  /**
+   * validate id field
+   */
+  validateProductName() {
+    const reg = new RegExp('^[A-Za-z0-9 ]+$');
+
+    if (!this.editSale.productName) {
+      return 'Product Name is required.';
+    }
+
+    if (this.editSale.productName.length > 50) {
+      return 'Product ID should have less that 50 alphanumeric chars.';
+    }
+
+    // if (!reg.test(this.editSale.productName)) {
+    //   return 'Product name should contains only alphanumeric chars.';
+    // }
+
+    return '';
+  }
+
+  /**
+   * cancel editing of a sale row
+   */
+  cancelUpdateSaleRow(rowIndex) {
+    this.editSale = [];
+    this.apiSales[rowIndex] = this.editSaleBckp;
   }
 }
