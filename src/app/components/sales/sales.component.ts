@@ -17,7 +17,14 @@ export class SalesComponent implements OnInit {
   searchValue = '';
   apiSales = [];
   /** this are original answer received from api, each time a search is done reset sales array to this one and start */
-  editSale = []
+  editSale = {
+    productID: 0,
+    productName: '',
+    salesQ1: 0,
+    salesQ2: 0,
+    salesQ3: 0,
+    salesQ4: 0
+  };
   editSaleBckp = {
     productID: 0,
     productName: '',
@@ -253,7 +260,7 @@ export class SalesComponent implements OnInit {
           });
 
       this.loading = false;
-      this.editSale = [];
+      this.resetEditSale();
     }
   }
 
@@ -281,11 +288,11 @@ export class SalesComponent implements OnInit {
       return 'Product ID is required.';
     }
 
-    if (this.editSale.productID.length > 13) {
+    if (this.editSale.productID.toString().length > 13) {
       return 'Product ID should have less that 13 numeric chars.';
     }
 
-    if (!reg.test(this.editSale.productID)) {
+    if (!reg.test(this.editSale.productID.toString())) {
       return 'Product ID should contains only numeric chars.';
     }
 
@@ -317,7 +324,19 @@ export class SalesComponent implements OnInit {
    * cancel editing of a sale row
    */
   cancelUpdateSaleRow(rowIndex) {
-    this.editSale = [];
+    this.resetEditSale();
     this.apiSales[rowIndex] = this.editSaleBckp;
+  }
+
+
+  resetEditSale() {
+    this.editSale = {
+      productID: 0,
+      productName: '',
+      salesQ1: 0,
+      salesQ2: 0,
+      salesQ3: 0,
+      salesQ4: 0
+    };
   }
 }
